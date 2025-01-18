@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Msg From Art</title>
+    <link rel="icon" type="image/png" href="angle.png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #fad0c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+            animation: backgroundFade 10s infinite alternate;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        @keyframes backgroundFade {
+            0% { background: linear-gradient(135deg, #ff9a9e, #fecfef, #fad0c4); }
+            50% { background: linear-gradient(135deg, #a18cd1, #fbc2eb, #fad0c4); }
+            100% { background: linear-gradient(135deg, #ff9a9e, #ffdde1, #ffefba); }
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+        }
+
+        .doors {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: 1000;
+            overflow: hidden;
+            opacity: 1;
+            animation: doorsFadeOut 2.5s ease-in-out forwards 2.5s;
+        }
+
+        @keyframes doorsFadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .door {
+            flex: 1;
+            background: #ff9a9e;
+            animation: doorOpen 2.5s ease-in-out forwards;
+        }
+
+        .door:nth-child(2) {
+            background: #fad0c4;
+        }
+
+        @keyframes doorOpen {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .door:first-child {
+            animation: doorOpenLeft 2.5s ease-in-out forwards;
+        }
+
+        @keyframes doorOpenLeft {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .doors.hide {
+            display: none;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 600px;
+            background: linear-gradient(135deg, #ffffff, #f8f8f8);
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transform: scale(0.95);
+            animation: cardPop 1s ease-in-out forwards;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 90%;
+                margin-top: 0; /* Ensure no extra margin on mobile */
+            }
+            .content p {
+                font-size: 16px;
+            }
+        }
+
+        @keyframes cardPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff9a9e, #ff717a);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #fff, #f3f3f3);
+        }
+
+        .content p {
+            margin: 0 0 15px;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .content p span {
+            color: #ff717a;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #fad0c4, #ffe3e3);
+            font-family: 'Roboto', sans-serif;
+			font-size: 14px;
+			color: #555;
+            font-style: italic;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #ff717a, #ff9a9e);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+			text-transform: uppercase;
+            font-family: 'Roboto', sans-serif;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #ff4754, #ff717a);
+            transform: scale(1.1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:focus {
+            outline: 2px solid #ff717a;
+            outline-offset: 2px;
+        }
+
+        .button:active {
+            transform: scale(1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .signature {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .highlight {
+            color: #ff717a;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", () => {
+            const doors = document.querySelector(".doors");
+            setTimeout(() => doors.classList.add("hide"), 5000);
+        });
+    </script>
+</head>
+<body>
+    <div class="doors">
+        <div class="door"></div>
+        <div class="door"></div>
+    </div>
+    <div class="card">
+        <div class="header">A Heartfelt Message</div>
+        <div class="content">
+            <p>Hello, <span class="highlight">Zaheen aman</span>,</p>
+            <p>This is small Msg for You.</p>
+            <p>you are an incredible individual whose vibrant personality and unwavering determination light up every room you enter. You have a unique ability to make everyone around you feel valued and appreciated, leaving a lasting impression wherever you go.</p>
+            <p>You possess a rare combination of intelligence, kindness, and creativity. Whether you’re solving a problem or sharing a new idea, you inspire those around you with your innovative thinking and thoughtful approach.
+
+Your compassion is equally remarkable. You are always there to offer a listening ear or lend your support to a friend in need. Your empathy and genuine care for others make you a source of comfort and strength.
+
+With your infectious energy and positivity, you create an encouraging environment that helps others thrive. You truly exemplify grace and resilience, making you not only an amazing friend but also a joy to know.</p>
+        </div>
+        <div class="footer">
+            <a href="#" class="button" onclick="alert('Thank you for taking the time to read this. I appreciate it more than words can express!')">Click Me</a>
+        </div>
+    </div>
+</body>
+</html>
+
